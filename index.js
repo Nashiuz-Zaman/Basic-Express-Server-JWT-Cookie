@@ -12,14 +12,16 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-app.post("/jwt", async (req, res) => {
-  const userInfo = req.body;
+app.get("/jwt", async (req, res) => {
+  const userInfo = { email: "zarif@zarif.com" };
   const token = jwt.sign(userInfo, secret, { expiresIn: "365d" });
 
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: false,
-  });
+  res
+    .cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+    })
+    .send({ success: true });
 });
 
 app.get("/", async (req, res) => {
